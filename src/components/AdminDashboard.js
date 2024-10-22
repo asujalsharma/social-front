@@ -5,6 +5,7 @@ import './AdminDashboard.css'; // Make sure to create this CSS file for styling
 const AdminDashboard = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(''); // Track errors
 
   useEffect(() => {
     fetchUsers();
@@ -12,11 +13,20 @@ const AdminDashboard = () => {
 
   const fetchUsers = async () => {
     try {
-      const response = await axios.get('https://social-app-back.vercel.app/api/users');
-      setUsers(response.data);
-      setLoading(false);
+      const response = await axios.get('https://social-back-hazel.vercel.app/api/users');
+      console.log(response.data); // Debug to check the structure
+
+      // Ensure response.data is an array
+      if (Array.isArray(response.data)) {
+        setUsers(response.data);
+      } else {
+        setError('Invalid data format received');
+        setUsers([]);
+      }
     } catch (err) {
       console.error('Error fetching users:', err);
+      setError('Failed to load users');
+    } finally {
       setLoading(false);
     }
   };
@@ -24,8 +34,11 @@ const AdminDashboard = () => {
   return (
     <div className="dashboard-container">
       <h2 className="dashboard-title">Admin Dashboard</h2>
+
       {loading ? (
         <div className="loading">Loading users...</div>
+      ) : error ? (
+        <div className="error-message">{error}</div>
       ) : users.length === 0 ? (
         <p>No users found.</p>
       ) : (
@@ -35,7 +48,7 @@ const AdminDashboard = () => {
               <h3 className="user-name">{user.name}</h3>
               <p className="user-handle">@{user.socialHandle}</p>
               <div className="image-gallery">
-                {user.images.length > 0 ? (
+                {user.images && user.images.length > 0 ? (
                   user.images.map((image, idx) => (
                     <img
                       height={200}
