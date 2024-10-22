@@ -16,7 +16,7 @@ const AdminLogin = () => {
     setLoading(true); // Set loading state to true when the request is made
     
     try {
-      const response = await axios.post('http://localhost:5000/api/auth/login', {
+      const response = await axios.post('https://social-app-back.vercel.app/api/auth/login', {
         username,
         password,
       });
