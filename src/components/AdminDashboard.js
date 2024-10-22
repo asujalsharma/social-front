@@ -41,7 +41,7 @@ const AdminDashboard = () => {
                       height={200}
                       width={200}
                       key={idx}
-                      src={`http://localhost:5000/uploads/${image}`}
+                      src={`https://social-back-hazel.vercel.app/uploads/${image}`}
                       alt={`Uploaded by ${user.name}`}
                       className="thumbnail"
                     />

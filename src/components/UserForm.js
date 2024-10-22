@@ -22,7 +22,7 @@ const UserForm = () => {
     }
 
     try {
-      await axios.post('https://social-app-back.vercel.app/api/users', formData, {
+      await axios.post('https://social-back-hazel.vercel.app/api/users', formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
       alert('Submission successful!');
